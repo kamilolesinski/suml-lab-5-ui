@@ -1,6 +1,5 @@
 from app import get_data, predict, train
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 import streamlit as st
 
@@ -19,7 +18,7 @@ with col_left:
     x_to_predict = st.number_input(key="predict_x", label="X", step=1, value=None)
     if st.button("Predict", disabled=x_to_predict is None):
         y_prediction = predict(x_to_predict)
-        st.write(f"Predicted y: {y_prediction}")
+        st.write(f"Predicted y: {round(y_prediction, 2)}")
 
 with col_right:
     st.subheader("Data", anchor=False)
@@ -31,14 +30,8 @@ with col_right:
         st.dataframe(df, width='stretch', hide_index=True)
 
         st.subheader("Chart", anchor=False)
-        fig, ax = plt.subplots()
-        ax.scatter(df["x"], df["y"], label="Data points")
-        if len(df) >= 2:
-            coeffs = np.polyfit(df["x"], df["y"], 1)
-            line_x = np.linspace(df["x"].min(), df["x"].max(), 200)
-            line_y = np.polyval(coeffs, line_x)
-            ax.plot(line_x, line_y, color="red", label=f"y = {coeffs[0]:.2f}x + {coeffs[1]:.2f}")
-            ax.legend()
-        ax.set_xlabel("x")
-        ax.set_ylabel("y")
-        st.pyplot(fig)
+        figure, axes = plt.subplots()
+        axes.scatter(df["x"], df["y"], label="Data points")
+        axes.set_xlabel("x")
+        axes.set_ylabel("y")
+        st.pyplot(figure)

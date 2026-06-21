@@ -1,4 +1,4 @@
-from app.constants import SERVER_HOST
+from .constants import SERVER_HOST
 import requests
 
 
